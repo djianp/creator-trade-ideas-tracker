@@ -2,7 +2,7 @@
 
 **Status:** 📋 Spec only (v0.1). No harness yet.
 
-When you change the methodology prompt or upgrade the model (e.g. Sonnet 4.6 → Opus 4.7), you need to know whether extraction quality changed. The [transcript-completeness eval](transcript_completeness.md) catches broken inputs at capture time. This eval catches drift in the LLM's *interpretation* of good inputs — silent regressions where the LLM starts missing mentions, mis-attributing speakers, or scoring conviction differently.
+When you change the methodology prompt or upgrade the model (e.g. Sonnet 4.6 → Opus 4.7), you need to know whether extraction quality changed. The [transcript_completeness.md](./transcript_completeness.md) catches broken inputs at capture time. This eval catches drift in the LLM's *interpretation* of good inputs — silent regressions where the LLM starts missing mentions, mis-attributing speakers, or scoring conviction differently.
 
 The plan is a hand-labeled gold subset, three metrics, and a `evals/run.py` harness that reports pass/fail against a frozen reference run.
 
@@ -20,7 +20,7 @@ Given a transcript, did the LLM extract every target-creator trade idea mention?
 
 ### 2. Speaker attribution accuracy
 
-For each gold mention, did the LLM correctly attribute it to the target creator vs. another host? This is the single most error-prone step in the pipeline (see the `## Speaker Attribution Risks` section of the [reference audit report](../examples/chris-camillo-mar-apr-2026/outputs/audit_report.md) — there are 6 risk segments flagged in just 3 episodes).
+For each gold mention, did the LLM correctly attribute it to the target creator vs. another host? This is the single most error-prone step in the pipeline (see the `## Speaker Attribution Risks` section of the [audit_report.md](./../examples/chris-camillo-mar-apr-2026/outputs/audit_report.md) — there are 6 risk segments flagged in just 3 episodes).
 
 - **Gold set:** for each mention, `(timestamp, true_speaker)` where `true_speaker ∈ {target, other_host, ambiguous}`.
 - **Match rule:** count two confusion-matrix cells specifically:
@@ -32,7 +32,7 @@ For each gold mention, did the LLM correctly attribute it to the target creator 
 
 For each correctly-extracted, correctly-attributed mention, is `conviction_score_0_to_5` within ±1 of human judgment?
 
-- **Gold set:** `(timestamp, ticker, gold_conviction)` with conviction 0–5 per the [methodology rubric](../prompts/trade-idea-extraction.md).
+- **Gold set:** `(timestamp, ticker, gold_conviction)` with conviction 0–5 per the [trade-idea-extraction.md](./../prompts/trade-idea-extraction.md).
 - **Match rule:** `|llm_score − gold_score| ≤ 1`. Conviction is rubric-based but inherently subjective (when does "I'm long" become "I have a massive position"?), so ±1 is the realistic agreement bar.
 - **Target:** ≥0.85 of correctly-extracted mentions within ±1.
 
@@ -43,7 +43,7 @@ We do not eval excitement or urgency scores in v0.2 — they are even more subje
 - **Prose quality of synthesis files** (`summary_dashboard.md`, `highest_conviction_ideas.md`, `ticker_timeline.md`). These are derivative — if the master CSV is right, the synthesis files will be right. If the synthesis prose drifts, that's a writing-style change, not a correctness regression.
 - **Audit report completeness.** The audit step is itself an LLM judgment call. Auditing the audit is a regress; eval the inputs to audit (the master CSV) instead.
 - **Bull/bear thesis quality.** Free-text fields. Comparing them against a gold thesis is just measuring paraphrase agreement, which has its own problems and isn't what we care about.
-- **JSON validity of `all_mentions_raw.json`.** That's a parser test, not an eval. Add it as a test in CI separately if it ever fails.
+- **JSON validity of ****`all_mentions_raw.json`****.** That's a parser test, not an eval. Add it as a test in CI separately if it ever fails.
 
 ## Building the gold set (v0.2)
 
@@ -51,9 +51,9 @@ The reference Chris Camillo dataset will be the v0.2 gold set. Process:
 
 1. Pick **one** episode as the gold episode. Recommended: `youtube_transcript_he_sold_everything_heres_what_hes_buying_2026-04-24.md` — the longest of the three (1:11:32) and the one with the most speaker-attribution complexity (Jordan's VEEV pick, Dave's Robin Hood Ventures Index).
 2. Have a human (Pierre or another analyst) read the transcript and produce `evals/gold/chris-camillo-2026-04-24.csv` with columns:
-   ```
+```
    timestamp,ticker_or_asset,true_speaker,gold_conviction,gold_direction,notes
-   ```
+```
    Aim for the same exhaustiveness bar as Step 1 — capture every mention, not just the headline ones.
 3. Cross-check against the existing reference output's `chris_trade_ideas_master.csv` — disagreements are either gold-set errors (fix them) or LLM errors (note them). Either way you learn something.
 4. Freeze the gold set with a version number. When you add or relabel rows, bump the version. Eval results are only comparable within a single gold-set version.
