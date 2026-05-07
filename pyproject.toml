@@ -1,0 +1,25 @@
+[project]
+name = "creator-trade-ideas-tracker"
+version = "0.1.0"
+description = "Reproducible methodology for extracting trade ideas from public investor podcast transcripts"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "anthropic>=0.40.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+]
+
+[project.scripts]
+extract = "extract:main"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["extract"]
