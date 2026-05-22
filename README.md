@@ -1,5 +1,7 @@
 # creator-trade-ideas-tracker
 
+![Creator Trade Ideas Tracker — from YouTube episodes to top trade ideas ranked by conviction](assets/banner.png)
+
 A reproducible methodology for systematically extracting trade ideas from any public investor's YouTube podcast — transcripts to structured CSV/JSON in one command.
 
 > **What this is:** an opinionated extraction framework + reference Chris Camillo dataset.
