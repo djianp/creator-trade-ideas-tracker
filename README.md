@@ -1,7 +1,7 @@
 # creator-trade-ideas-tracker
 
 > [!NOTE]
-> **This repo is the public base build of Trade Ideas Tracker:** the six-stage extraction pipeline (load context, mechanical extraction, speaker attribution and ticker normalization, scoring, audit, synthesis), run on one investor at a time, with a worked example: one investor, three episodes, eleven output files.
+> **This repo is the public base build of Trade Ideas Tracker:** the six-stage extraction pipeline (load context, mechanical extraction, speaker attribution and ticker normalization, scoring, audit, synthesis), runs on one investor at a time, with a worked example: one investor, three episodes, eleven output files.
 >
 > **The full system is a private build that runs the pipeline across multiple investors.** It ranks their trade ideas on one cross-investor leaderboard, then adds AI-written deep dives on the top ideas and a market sentiment dashboard. The leaderboard is a seventh stage, purely deterministic, that averages investors' latest conviction score per company. Under the hood, it runs one scoped subagent per transcript, and a token-spend dashboard measures cost per stage.
 >
