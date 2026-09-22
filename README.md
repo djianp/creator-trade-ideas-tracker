@@ -1,5 +1,18 @@
 # creator-trade-ideas-tracker
 
+> [!NOTE]
+> **This repo is the public base build of Trade Ideas Tracker:** the six-stage extraction pipeline (load context, mechanical extraction, speaker attribution and ticker normalization, scoring, audit, synthesis), run on one investor at a time, with a worked example: one investor, three episodes, eleven output files.
+>
+> **The full system is a private build that runs the pipeline across multiple investors.** It ranks their trade ideas on one cross-investor leaderboard, then adds AI-written deep dives on the top ideas and a market sentiment dashboard. The leaderboard is a seventh stage, purely deterministic, that averages investors' latest conviction score per company. Under the hood, it runs one scoped subagent per transcript, and a token-spend dashboard measures cost per stage.
+>
+> **The trust layer: three of its five parts are already in this repo.**
+> - **A fifteen-check audit pass** over the finished dataset: is the quote real and present in the transcript, does the timestamp match it, is the speaker right, was conviction overstated or understated, and what was missed entirely. See Step 4 of [the extraction prompt](prompts/trade-idea-extraction.md).
+> - **Source-linked timestamps.** Every idea carries the quote behind it, the timecode where it was said, and the episode date. Quotes are copied verbatim.
+> - **Evidence strength** on every row, in three tiers (explicit, inferred, weak / ambiguous), recorded beside the conviction score rather than folded into it.
+> - **In the private build only:** a deterministic validator, plain Python with no model, that runs the real build and checks every published figure against it; and an extraction record that is never rewritten, with corrections kept in speaker and ticker alias files and applied when the data is read.
+>
+> **Case study, with the architecture:** https://pierre-djian-trade-ideas.vercel.app · Private build: available on request.
+
 ![Creator Trade Ideas Tracker — from YouTube episodes to top trade ideas ranked by conviction](assets/banner.png)
 
 A reproducible methodology for systematically extracting trade ideas from any public investor's YouTube podcast — transcripts to structured CSV/JSON in one command.
