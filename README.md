@@ -104,7 +104,7 @@ A 6-step workflow that runs as 6 separate Claude API calls, each with the method
 5. **Step 4 — Audit.** Verify quotes against source, flag speaker-attribution risks, identify contradictions across episodes. Output: `audit_report.md`.
 6. **Step 5 — Synthesis.** Build the per-episode summary, ticker timeline, highest-conviction ranking, JSON dump, dashboard, and traceability file. Output: 6 markdown/JSON files.
 
-Why staged calls instead of one big call: total output exceeds single-response token limits, staging lets you fail fast on bad early-step output, and prompt caching makes it cheap (~75% discount on cached inputs reused across steps).
+Why staged calls instead of one big call: total output exceeds single-response token limits, staging lets you fail fast on bad early-step output, and prompt caching makes it cheap.
 
 Full details in [methodology.md](./docs/methodology.md).
 
